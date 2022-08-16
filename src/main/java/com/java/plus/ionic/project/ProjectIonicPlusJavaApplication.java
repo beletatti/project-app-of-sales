@@ -1,0 +1,12 @@
+package com.java.plus.ionic.project;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProjectIonicPlusJavaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProjectIonicPlusJavaApplication.class, args);
+	}
+}
