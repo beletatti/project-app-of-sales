@@ -8,9 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.java.plus.ionic.project.domain.Categoria;
+import com.java.plus.ionic.project.domain.Produto;
 import com.java.plus.ionic.project.repository.CategoriaRepository;
 import com.java.plus.ionic.project.repository.ProdutoRepository;
-import com.java.plus.ionic.project.service.Produto;
 
 @SpringBootApplication
 public class ProjectIonicPlusJavaApplication implements CommandLineRunner {
