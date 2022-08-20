@@ -13,6 +13,7 @@ import com.java.plus.ionic.project.domain.Cidade;
 import com.java.plus.ionic.project.domain.Cliente;
 import com.java.plus.ionic.project.domain.Endereco;
 import com.java.plus.ionic.project.domain.Estado;
+import com.java.plus.ionic.project.domain.ItemPedido;
 import com.java.plus.ionic.project.domain.Pagamento;
 import com.java.plus.ionic.project.domain.PagamentoComBoleto;
 import com.java.plus.ionic.project.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.java.plus.ionic.project.repository.CidadeRepository;
 import com.java.plus.ionic.project.repository.ClienteRepository;
 import com.java.plus.ionic.project.repository.EnderecoRepository;
 import com.java.plus.ionic.project.repository.EstadoRepository;
+import com.java.plus.ionic.project.repository.ItemPedidoRepository;
 import com.java.plus.ionic.project.repository.PagamentoRepository;
 import com.java.plus.ionic.project.repository.PedidoRepository;
 import com.java.plus.ionic.project.repository.ProdutoRepository;
@@ -55,6 +57,9 @@ public class ProjectIonicPlusJavaApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectIonicPlusJavaApplication.class, args);
@@ -121,5 +126,18 @@ public class ProjectIonicPlusJavaApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 }
