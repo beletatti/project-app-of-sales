@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,7 +25,7 @@ public class CategoriaResource {
 	CategoriaService categoriaService;
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria result = categoriaService.find(id);
 		return ResponseEntity.ok().body(result);
 	}
@@ -39,5 +41,12 @@ public class CategoriaResource {
 		Categoria result = categoriaService.insert(categoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Categoria obj) {
+		obj.setId(id);
+		obj = categoriaService.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 }
