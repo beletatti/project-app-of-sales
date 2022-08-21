@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.java.plus.ionic.project.domain.Categoria;
+import com.java.plus.ionic.project.dto.CategoriaDTO;
 import com.java.plus.ionic.project.exception.DataIntegrityException;
 import com.java.plus.ionic.project.exception.ObjectNotFoundException;
 import com.java.plus.ionic.project.repository.CategoriaRepository;
@@ -30,6 +31,10 @@ public class CategoriaService {
 	public List<Categoria> findAll() {
 		List<Categoria> obj = categoriaRepository.findAll();
 		return obj;
+	}
+
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {

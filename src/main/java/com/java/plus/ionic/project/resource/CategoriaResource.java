@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.java.plus.ionic.project.domain.Categoria;
 import com.java.plus.ionic.project.dto.CategoriaDTO;
 import com.java.plus.ionic.project.service.CategoriaService;
+
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -54,9 +57,9 @@ public class CategoriaResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(Categoria categoria) {
-		Categoria result = categoriaService.insert(categoria);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
+		Categoria obj = categoriaService.fromDTO(objDto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
