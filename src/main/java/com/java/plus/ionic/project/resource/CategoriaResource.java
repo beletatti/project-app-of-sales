@@ -2,6 +2,7 @@ package com.java.plus.ionic.project.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.java.plus.ionic.project.domain.Categoria;
+import com.java.plus.ionic.project.dto.CategoriaDTO;
 import com.java.plus.ionic.project.service.CategoriaService;
 
 @RestController
@@ -32,9 +34,10 @@ public class CategoriaResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll() {
-		List<Categoria> result = categoriaService.findall();
-		return ResponseEntity.ok().body(result);
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> list = categoriaService.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());  
+		return ResponseEntity.ok().body(listDto);
 	}
 
 	@PostMapping

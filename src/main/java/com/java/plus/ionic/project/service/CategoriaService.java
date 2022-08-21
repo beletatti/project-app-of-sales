@@ -24,7 +24,7 @@ public class CategoriaService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 
-	public List<Categoria> findall() {
+	public List<Categoria> findAll() {
 		List<Categoria> obj = categoriaRepository.findAll();
 		return obj;
 	}
