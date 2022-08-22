@@ -23,4 +23,12 @@ A aplicação se resume em um sistema de venda de produtos.
 
 #################### - 2° Etapa =) - ####################
 
-                    ...Em Construção...
+- Criação dos mecanismo de CRUD;
+
+- Criação das validações sintáticas;
+
+- Criação das validações customizadas.
+
+#################### - 3° Etapa =) - ####################
+
+                    ... Em Construção ...
