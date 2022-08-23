@@ -31,4 +31,13 @@ A aplicação se resume em um sistema de venda de produtos.
 
 #################### - 3° Etapa =) - ####################
 
-                    ... Em Construção ...
+- Implementação do Banco de Dados MySQL;
+
+- Criando profile de test, dev e prod;
+
+- Subindo o projeto para o Heroku;
+
+- Subindo o projeto para produção no Heroku (project-app-of-sales.herokuapp.com).
+
+#################### - 4° Etapa =) - ####################
+                  ... Em construção ...
