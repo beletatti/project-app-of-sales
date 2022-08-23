@@ -40,4 +40,5 @@ A aplicação se resume em um sistema de venda de produtos.
 - Subindo o projeto para produção no Heroku (project-app-of-sales.herokuapp.com).
 
 #################### - 4° Etapa =) - ####################
-                  ... Em construção ...
+                
+                ... Em construção ...
