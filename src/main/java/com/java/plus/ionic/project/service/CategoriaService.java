@@ -11,12 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.java.plus.ionic.project.domain.Categoria;
-import com.java.plus.ionic.project.domain.Cidade;
-import com.java.plus.ionic.project.domain.Cliente;
-import com.java.plus.ionic.project.domain.Endereco;
-import com.java.plus.ionic.project.domain.enums.TipoCliente;
 import com.java.plus.ionic.project.dto.CategoriaDTO;
-import com.java.plus.ionic.project.dto.ClienteNewDTO;
 import com.java.plus.ionic.project.exception.DataIntegrityException;
 import com.java.plus.ionic.project.exception.ObjectNotFoundException;
 import com.java.plus.ionic.project.repository.CategoriaRepository;
@@ -45,23 +40,6 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return categoriaRepository.findAll(pageRequest);
-	}
-
-	public Cliente fromDTO(ClienteNewDTO objDto) {
-		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
-				TipoCliente.toEnum(objDto.getTipo()));
-		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
-				objDto.getBairro(), objDto.getCep(), cli, cid);
-		cli.getEnderecos().add(end);
-		cli.getTelefones().add(objDto.getTelefone1());
-		if (objDto.getTelefone2() != null) {
-			cli.getTelefones().add(objDto.getTelefone2());
-		}
-		if (objDto.getTelefone3() != null) {
-			cli.getTelefones().add(objDto.getTelefone3());
-		}
-		return cli;
 	}
 
 	public Categoria insert(Categoria obj) {
