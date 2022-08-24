@@ -41,4 +41,7 @@ A aplicação se resume em um sistema de venda de produtos.
 
 #################### - 4° Etapa =) - ####################
                 
-                ... Em construção ...
+- Adicionando serviço de E-mail.
+
+#################### - 5° Etapa =) - ####################
+                    ... Em Construção ...
