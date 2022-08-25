@@ -1,5 +1,6 @@
 package com.java.plus.ionic.project.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.java.plus.ionic.project.domain.Cidade;
 import com.java.plus.ionic.project.domain.Cliente;
@@ -33,6 +35,9 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
+	private S3Service s3Service;
+	
+	@Autowired
 	private BCryptPasswordEncoder pe;
 	
 	public Cliente find(Integer id) {
@@ -53,6 +58,10 @@ public class ClienteService {
 		Cliente newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 	public void delete(Integer id) {
