@@ -4,8 +4,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.licensemanager.model.AuthorizationException;
+import com.java.plus.ionic.project.domain.Cliente;
 import com.java.plus.ionic.project.domain.ItemPedido;
 import com.java.plus.ionic.project.domain.PagamentoComBoleto;
 import com.java.plus.ionic.project.domain.Pedido;
@@ -14,6 +19,7 @@ import com.java.plus.ionic.project.exception.ObjectNotFoundException;
 import com.java.plus.ionic.project.repository.ItemPedidoRepository;
 import com.java.plus.ionic.project.repository.PagamentoRepository;
 import com.java.plus.ionic.project.repository.PedidoRepository;
+import com.java.plus.ionic.project.security.UserSS;
 
 @Service
 public class PedidoService {
@@ -66,5 +72,15 @@ public class PedidoService {
 		itemPedidoRepository.saveAll(obj.getItens());
 		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente =  clienteService.find(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
 	}
 }
