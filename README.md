@@ -45,4 +45,9 @@ A aplicação se resume em um sistema de venda de produtos.
 
 #################### - 5° Etapa =) - ####################
                    
-                   ... Em Construção ...
+- Criando autenticação e autorização com tokens JWT.
+
+#################### - 6° Etapa =) - ####################
+
+                   ... Em construção ...
+
