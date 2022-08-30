@@ -1,10 +1,11 @@
 package com.java.plus.ionic.project.service;
-
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import com.amazonaws.services.licensemanager.model.AuthorizationException;
 import com.java.plus.ionic.project.domain.Cidade;
 import com.java.plus.ionic.project.domain.Cliente;
 import com.java.plus.ionic.project.domain.Endereco;
+import com.java.plus.ionic.project.domain.enums.Perfil;
 import com.java.plus.ionic.project.domain.enums.TipoCliente;
 import com.java.plus.ionic.project.dto.ClienteDTO;
 import com.java.plus.ionic.project.dto.ClienteNewDTO;
@@ -37,12 +39,24 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
+	private BCryptPasswordEncoder pe;
+	
+	@Autowired
 	private S3Service s3Service;
 	
 	@Autowired
-	private BCryptPasswordEncoder pe;
+	private ImageService imageService;
+		
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -61,20 +75,6 @@ public class ClienteService {
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
-	
-	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		UserSS user = UserService.authenticated();
-		if (user == null) {
-			throw new AuthorizationException("Acesso negado");
-		}
-
-		URI uri = s3Service.uploadFile(multipartFile);
-
-		Cliente cli = find(user.getId());
-		cli.setImageUrl(uri.toString());
-		repo.save(cli);
-
-		return uri;	}
 
 	public void delete(Integer id) {
 		find(id);
@@ -117,5 +117,17 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
+		
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }
