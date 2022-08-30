@@ -49,5 +49,10 @@ A aplicação se resume em um sistema de venda de produtos.
 
 #################### - 6° Etapa =) - ####################
 
-                   ... Em construção ...
+- Armazenamento de imagens usando S3.
 
+#################### - 7° Etapa =) - ####################
+- Ajuste finais no back-end e bucket.
+
+#################### - 6° Etapa =) - ####################
+                   ... Em construção ...
