@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.licensemanager.model.AuthorizationException;
 import com.java.plus.ionic.project.domain.Cidade;
 import com.java.plus.ionic.project.domain.Cliente;
 import com.java.plus.ionic.project.domain.Endereco;
@@ -24,6 +25,7 @@ import com.java.plus.ionic.project.exception.DataIntegrityException;
 import com.java.plus.ionic.project.exception.ObjectNotFoundException;
 import com.java.plus.ionic.project.repository.ClienteRepository;
 import com.java.plus.ionic.project.repository.EnderecoRepository;
+import com.java.plus.ionic.project.security.UserSS;
 
 @Service
 public class ClienteService {
@@ -61,8 +63,18 @@ public class ClienteService {
 	}
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
-	}
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		URI uri = s3Service.uploadFile(multipartFile);
+
+		Cliente cli = find(user.getId());
+		cli.setImageUrl(uri.toString());
+		repo.save(cli);
+
+		return uri;	}
 
 	public void delete(Integer id) {
 		find(id);
