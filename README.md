@@ -7,7 +7,7 @@ Construção da UML de um App de vendas.
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;
 </p>
 
 <p align="center">
@@ -35,6 +35,6 @@ Esta aplicação é um componente que simula um sistema interno(back-end) de um 
 
 ## 🔖 Layout
 
-Você pode visualizar o layout do projeto através [DESTE LINK] (https://dashboard.heroku.com/apps/project-app-of-sales) . É necessário ter conta no [Heroku](https://dashboard.heroku.com/apps) para acessá-lo.
+Você pode visualizar o layout do projeto através deste [LINK] (https://dashboard.heroku.com/apps/project-app-of-sales) . É necessário ter conta no [Heroku](https://dashboard.heroku.com/apps) para acessá-lo.
 
 ---
